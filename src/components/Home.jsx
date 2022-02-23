@@ -4,12 +4,12 @@ import { Typography, Row, Col, Statistic } from "antd";
 import { Link } from "react-router-dom";
 
 import { useGetCryptosQuery } from "../services/cryptoApi";
-
+import { Cryptocurrenties, News } from "./index";
 const { Title } = Typography;
 const HomePage = () => {
   const { data, isFetching } = useGetCryptosQuery();
   const globalStats = data?.data?.stats;
-  console.log(globalStats);
+  // console.log(globalStats);
   if (isFetching) return "Loading...";
 
   return (
@@ -46,6 +46,24 @@ const HomePage = () => {
           />
         </Col>
       </Row>
+      <div className="home-heading-container">
+        <Title level={2} className="home-title">
+          Top 10 Cryptocurrenties in the world
+        </Title>
+        <Title level={3} className="show-more">
+          <Link to="/cryptocurrenties">Show More</Link>
+        </Title>
+      </div>
+      <Cryptocurrenties simplified />
+      <div className="home-heading-container">
+        <Title level={2} className="home-title">
+          Latest Crypto News
+        </Title>
+        <Title level={3} className="show-more">
+          <Link to="/news">Show More</Link>
+        </Title>
+      </div>
+      <News simplified />
     </>
   );
 };
