@@ -1,20 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { Select, Typography, Row, Avatar, Card, Col } from "antd";
 import moment from "moment";
 import { useGetNewsQuery } from "../services/cryptoNewsApi.js";
-
+import { useGetCryptosQuery } from "../services/cryptoApi";
 const { Text, Title } = Typography;
 const { Option } = Select;
 
 const News = ({ simplified }) => {
-  const { data: cryptoNews, isFetching } = useGetNewsQuery({
-    newsCategory: "Cryptocurrency",
+  const [newsCategory, setNewsCategory] = useState("Cryptocurrency");
+  const { data: cryptoNews } = useGetNewsQuery({
+    newsCategory,
     count: simplified ? 6 : 20,
   });
+  const { data } = useGetCryptosQuery(100);
   if (!cryptoNews?.value) return "Please wait news is being fetched......";
-  console.log(cryptoNews);
+  // console.log(cryptoNews);
   return (
     <Row gutter={[24, 24]}>
+      {!simplified && (
+        <Col span={24}>
+          <Select
+            showSearch
+            className="select-news"
+            placeholder="Select a Crypto"
+            optionFilterProp="children"
+            onChange={(value) => setNewsCategory(value)}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            <Option value="Cryptocurrency">CryptoCurrency</Option>
+            {data?.data?.coins.map((coin) => (
+              <Option value={coin.name}>{coin.name}</Option>
+            ))}
+          </Select>
+        </Col>
+      )}
       {cryptoNews.value.map((news, i) => (
         <Col xs={24} sm={12} lg={8} key={i}>
           <Card hoverable className="news-card">
@@ -29,8 +50,7 @@ const News = ({ simplified }) => {
                     "http://coinrevolution.com/wp-content/uploads/2020/06/cryptonews.jpg"
                   }
                   alt="News"
-                  height={100}
-                  style={{ objectFit: "contain" }}
+                  style={{ maxWidth: "200px", maxHeight: "100px" }}
                 />
               </div>
               <p>
