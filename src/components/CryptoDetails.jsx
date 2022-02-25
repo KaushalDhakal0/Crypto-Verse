@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import HTMLReactParser from "html-react-parser";
 import { useParams } from "react-router-dom";
 import millify from "millify";
 import { Col, Row, Typography, Select } from "antd";
+import { useGetCryptoDetailsQuery } from "../services/cryptoApi";
 import {
   MoneyCollectOutlined,
   DollarCircleOutlined,
@@ -14,8 +15,18 @@ import {
   NumberOutlined,
   ThunderboltOutlined,
 } from "@ant-design/icons";
+const { Title, Text } = Typography;
+const { Option } = Select;
+
 const CryptoDetails = () => {
-  return <div>CryptoDetails</div>;
+  const { coinId } = useParams();
+  const [timePeriod, setTimePeriod] = useState("7d");
+
+  const { data, isFetching } = useGetCryptoDetailsQuery(coinId);
+  if (isFetching) return "Fetching Details.....";
+  console.log(data.data.coin.name);
+
+  return <div>CryptoDetails: {data?.data?.coin.name}</div>;
 };
 
 export default CryptoDetails;

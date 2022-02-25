@@ -50,7 +50,7 @@ const News = ({ simplified }) => {
                     "http://coinrevolution.com/wp-content/uploads/2020/06/cryptonews.jpg"
                   }
                   alt="News"
-                  style={{ maxWidth: "200px", maxHeight: "100px" }}
+                  style={{ maxWidth: "100px", maxHeight: "100px" }}
                 />
               </div>
               <p>
