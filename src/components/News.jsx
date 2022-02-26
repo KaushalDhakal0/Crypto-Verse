@@ -3,6 +3,7 @@ import { Select, Typography, Row, Avatar, Card, Col } from "antd";
 import moment from "moment";
 import { useGetNewsQuery } from "../services/cryptoNewsApi.js";
 import { useGetCryptosQuery } from "../services/cryptoApi";
+import Loader from "./Loader.jsx";
 const { Text, Title } = Typography;
 const { Option } = Select;
 
@@ -13,7 +14,7 @@ const News = ({ simplified }) => {
     count: simplified ? 6 : 20,
   });
   const { data } = useGetCryptosQuery(100);
-  if (!cryptoNews?.value) return "Please wait news is being fetched......";
+  if (!cryptoNews?.value) return <Loader />;
   // console.log(cryptoNews);
   return (
     <Row gutter={[24, 24]}>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 import { Col, Row, Typography } from "antd";
-
+// import moment from "moment";
 const { Title } = Typography;
 
 const LineChart = ({ coinHistory, currentPrice, coinName }) => {
@@ -14,10 +14,12 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
 
   for (let i = 0; i < coinHistory?.data?.history?.length; i += 1) {
     coinTimestamp.push(
-      new Date(coinHistory?.data?.history[i].timestamp).toLocaleDateString()
+      new Date(
+        coinHistory?.data?.history[i].timestamp * 1000
+      ).toLocaleDateString()
     );
   }
-  console.log(coinTimestamp);
+  // console.log(new Date(1645799700));
   const data = {
     labels: coinTimestamp,
     datasets: [
@@ -33,38 +35,10 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
 
   const options = {
     scales: {
-      yAxes: [
+      y: [
         {
-          stacked: false,
-          scaleLabel: {
-            display: true,
-            fontColor: "white",
-            fontSize: 25,
-            labelString: "Faction Points",
-          },
           ticks: {
-            fontColor: "white",
-            fontSize: 20,
-            min: 0,
-          },
-          gridLines: {
-            color: "white",
-          },
-        },
-      ],
-      xAxes: [
-        {
-          stacked: false,
-          scaleLabel: {
-            display: true,
-            fontColor: "white",
-            fontSize: 25,
-            labelString: "Day",
-          },
-          ticks: {
-            fontColor: "white",
-            fontSize: 20,
-            min: 0,
+            beginAtZero: true,
           },
         },
       ],
